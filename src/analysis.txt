@@ -1,0 +1,55 @@
+
+BaseMarkov Runtimes:
+
+default order 3:
+time	source	#chars
+0.130	487614	1000
+0.229	487614	2000
+0.339	487614	4000
+0.823	487614	8000
+1.639	487614	16000
+3.618	487614	32000
+7.436	487614	64000
+
+with order 5:
+time	source	#chars
+0.131	487614	1000
+0.227	487614	2000
+0.355	487614	4000
+0.847	487614	8000
+1.652	487614	16000
+3.246	487614	32000
+
+Efficient Markov Runtimes:
+
+with default 3 order:
+time	source	#chars
+0.134	487614	1000
+0.144	487614	2000
+0.116	487614	4000
+0.122	487614	8000
+0.161	487614	16000
+0.155	487614	32000
+
+with order 5:
+time	source	#chars
+0.143	487614	1000
+0.151	487614	2000
+0.117	487614	4000
+0.102	487614	8000
+0.107	487614	16000
+0.109	487614	32000
+
+
+If the text contains N characters, then generating T characters from a training text of size N is an O(NT) operation.
+The timings of BaseMarkov do support the O(NT) analysis because with each run as the number of characters double, the runtime also roughly doubles.  This makes sense
+because with a runtime of O(NT), 2 * T, or doubling the number of characters, should double the runtime. Especially as the number of characters got larger, the division
+between consecutive run times got closer and closer to 2 (ex: 3.246 (runtime of 32000 characters) / 1.652 (runtime of 16000 characters) = 1.96, which is very close to 2).
+In the other benchmark test where t is fixed and the size of the text n is varied the run time also holds where the text size doubles between runs. Between runs 1 and 2 where
+the text size the doubles, the runtime also roughly doubles as 1.324/0.502 = 2.6 (approx.).
+
+
+The run times of EfficientMarkov do not support the O(N+T) analysis of the code. The run time should be increasing in a linear fashion; however, as displayed
+by Benchmark, the run times are fluctuating up and down with each increment of doubled characters. The runtime difference difference consecutive runs increases in a linear
+fashion. For example, the run time difference between a text size of 975228 and 487614 characters is 0.192 (where t is constant), the difference between 1462842 and 1950456 characters
+is 0.130 seconds, and the difference between 3413298 and 2925684 is 0.171.
